@@ -1,0 +1,37 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/yue/catkin_ws/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/yue/catkin_ws/src/imu_tools/imu_complementary_filter/include/**",
+        "/home/yue/catkin_ws/src/imu_tools/imu_filter_madgwick/include/**",
+        "/home/yue/catkin_ws/src/LeGO-LOAM/LeGO-LOAM/include/**",
+        "/home/yue/catkin_ws/src/leptrino/include/**",
+        "/home/yue/catkin_ws/src/LIO-SAM/include/**",
+        "/home/yue/catkin_ws/src/pclprocess/include/**",
+        "/home/yue/catkin_ws/src/rosserial/rosserial_server/include/**",
+        "/home/yue/catkin_ws/src/rosserial/rosserial_test/include/**",
+        "/home/yue/catkin_ws/src/rt_usb_9axisimu_driver-noetic-devel/include/**",
+        "/home/yue/catkin_ws/src/unitree_ros/unitree_controller/include/**",
+        "/home/yue/catkin_ws/src/unitree_ros/unitree_legged_control/include/**",
+        "/home/yue/catkin_ws/src/unitree_ros_to_real/unitree_legged_real/include/**",
+        "/home/yue/catkin_ws/src/velodyne/velodyne_driver/include/**",
+        "/home/yue/catkin_ws/src/velodyne/velodyne_laserscan/include/**",
+        "/home/yue/catkin_ws/src/velodyne/velodyne_pcl/include/**",
+        "/home/yue/catkin_ws/src/velodyne/velodyne_pointcloud/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

@@ -1,0 +1,5 @@
+<launch>
+
+<node pkg="leptrino" type="axissensor" name="axissensor" output="screen"/>
+
+</launch>
