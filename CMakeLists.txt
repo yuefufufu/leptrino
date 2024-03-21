@@ -22,5 +22,3 @@ include_directories(
 
 add_executable(axissensor src/6axissensor.cpp)
 target_link_libraries(axissensor ${catkin_LIBRARIES})
-add_executable(hello src/hello.cpp)
-target_link_libraries(hello ${catkin_LIBRARIES})
