@@ -10,4 +10,4 @@ cnt%後ろの数字をnとしたとき，
 
 You can change the frequency of the subscribe by changing the number after cnt% from 10 in line 118: if (cnt%10 == 0) {. 
 
-If the number after cnt% is n, the sampling frequency is approximately equal to 1000/n.
+If the number after cnt% is n, the sampling frequency ≒ 1000/n.
