@@ -10,19 +10,19 @@
 #include "pComResInternal.h"
 
 // =============================================================================
-//	ƒ}ƒNƒ’è‹`
+//	ãƒžã‚¯ãƒ­å®šç¾©
 // =============================================================================
 #define PRG_VER	"Ver 1.0.0"
 
 // =============================================================================
-//	\‘¢‘Ì’è‹`
+//	æ§‹é€ ä½“å®šç¾©
 // =============================================================================
 typedef struct ST_SystemInfo {
 	int com_ok;
 } SystemInfo;
 
 // =============================================================================
-//	ƒvƒƒgƒ^ƒCƒvéŒ¾
+//	ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
 // =============================================================================
 void App_Init(void);
 void App_Close(void);
@@ -33,14 +33,14 @@ void SerialStart(void);
 void SerialStop(void);
 
 // =============================================================================
-//	ƒ‚ƒWƒ…[ƒ‹•Ï”’è‹`
+//	ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«å¤‰æ•°å®šç¾©
 // =============================================================================
 SystemInfo gSys;
 UCHAR CommRcvBuff[256];
 UCHAR CommSendBuff[1024];
 UCHAR SendBuff[512];
 
-//ƒVƒŠƒAƒ‹’ÊM—p
+//ã‚·ãƒªã‚¢ãƒ«é€šä¿¡ç”¨
 #include <ros/ros.h>
 #include <sys/ioctl.h>
 #include <fcntl.h>
@@ -58,14 +58,14 @@ UCHAR SendBuff[512];
 #define STS_WAIT_ETX	3
 #define STS_WAIT_BCC	4
 
-static int Comm_RcvF=0;								//ŽóMƒf[ƒ^—Lƒtƒ‰ƒO
-static int p_rd=0,p_wr=0;							//ŽóMƒŠƒ“ƒOƒoƒbƒtƒ@“Ço‚µA‘ž‚Ýƒ|ƒCƒ“ƒ^
+static int Comm_RcvF=0;								//å—ä¿¡ãƒ‡ãƒ¼ã‚¿æœ‰ãƒ•ãƒ©ã‚°
+static int p_rd=0,p_wr=0;							//å—ä¿¡ãƒªãƒ³ã‚°ãƒãƒƒãƒ•ã‚¡èª­å‡ºã—ã€æ›¸è¾¼ã¿ãƒã‚¤ãƒ³ã‚¿
 static int fd=0;										//
-static int rcv_n=0;									//ŽóM•¶Žš”
-static UCHAR delim;									//ŽóMƒf[ƒ^ƒfƒŠƒ~ƒ^
-static UCHAR rcv_buff[MAX_BUFF][MAX_LENGTH];	//ŽóMƒŠƒ“ƒOƒoƒbƒtƒ@
+static int rcv_n=0;									//å—ä¿¡æ–‡å­—æ•°
+static UCHAR delim;									//å—ä¿¡ãƒ‡ãƒ¼ã‚¿ãƒ‡ãƒªãƒŸã‚¿
+static UCHAR rcv_buff[MAX_BUFF][MAX_LENGTH];	//å—ä¿¡ãƒªãƒ³ã‚°ãƒãƒƒãƒ•ã‚¡
 static UCHAR stmp[MAX_LENGTH];						//
-struct termios tio;									//ƒ|[ƒgÝ’è\‘¢‘Ì
+struct termios tio;									//ãƒãƒ¼ãƒˆè¨­å®šæ§‹é€ ä½“
 
 unsigned char rbuff[MAX_LENGTH];
 unsigned char ucBCC;
@@ -81,10 +81,10 @@ double roop_c = 0;
 
 
 // ----------------------------------------------------------------------------------
-//	ƒƒCƒ“ŠÖ”
+//	ãƒ¡ã‚¤ãƒ³é–¢æ•°
 // ----------------------------------------------------------------------------------
-//	ˆø”	: non
-//	–ß‚è’l	: non
+//	å¼•æ•°	: non
+//	æˆ»ã‚Šå€¤	: non
 // ----------------------------------------------------------------------------------
 int main(int argc, char** argv)
 {
@@ -106,7 +106,7 @@ int main(int argc, char** argv)
 		exit(0);
 	}
 
-	// ˜A‘±‘—MŠJŽn
+	// é€£ç¶šé€ä¿¡é–‹å§‹
 	SerialStart();
 	while(ros::ok()){
 		Comm_Rcv();
@@ -115,7 +115,7 @@ int main(int argc, char** argv)
 		if ( rt>0 ) {
 			cnt++;
 
-			if (cnt%10 == 0) {
+			if (cnt%10 == 0) {//ã“ã“ã®æ•°å­—ã‚’å¤‰ãˆã‚‹ã“ã¨ã§ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°å‘¨æœŸãŒå¤‰ã‚ã‚Šã¾ã™ï¼Ž
 				//roop_c = roop_c + 1;
 				
 				stForce = (ST_R_DATA_GET_F *)CommRcvBuff;
@@ -148,10 +148,10 @@ int main(int argc, char** argv)
 
 
 // ----------------------------------------------------------------------------------
-//	ŽóMŠÄŽ‹ƒXƒŒƒbƒh
+//	å—ä¿¡ç›£è¦–ã‚¹ãƒ¬ãƒƒãƒ‰
 // ----------------------------------------------------------------------------------
-//	ˆø”	: pParam .. 
-//	–ß‚è’l	: non
+//	å¼•æ•°	: pParam .. 
+//	æˆ»ã‚Šå€¤	: non
 // ----------------------------------------------------------------------------------
 void Comm_Rcv(void)
 {
@@ -161,7 +161,7 @@ void Comm_Rcv(void)
 
 	while(1){
 		rt=read(fd, rbuff, 1);
-		//ŽóMƒf[ƒ^‚ ‚è
+		//å—ä¿¡ãƒ‡ãƒ¼ã‚¿ã‚ã‚Š
 		if (rt > 0) {
 			rbuff[rt]=0;
 			ch=rbuff[0];
@@ -173,31 +173,31 @@ void Comm_Rcv(void)
 				if (ch == CHR_DLE) RcvSts = STS_WAIT_STX;
 				break;
 			case STS_WAIT_STX:
-				if (ch == CHR_STX) {					/* STX‚ª‚ ‚ê‚ÎŽŸ‚Íƒf[ƒ^ */
+				if (ch == CHR_STX) {					/* STXãŒã‚ã‚Œã°æ¬¡ã¯ãƒ‡ãƒ¼ã‚¿ */
 					RcvSts = STS_DATA;
-				} else {								/* STX‚Å‚È‚¯‚ê‚ÎŒ³‚É–ß‚é */
+				} else {								/* STXã§ãªã‘ã‚Œã°å…ƒã«æˆ»ã‚‹ */
 					RcvSts = STS_IDLE;
 				}
 				break;
 			case STS_DATA:
-				if (ch == CHR_DLE) {					/* DLE‚ª‚ ‚ê‚ÎŽŸ‚ÍETX */
+				if (ch == CHR_DLE) {					/* DLEãŒã‚ã‚Œã°æ¬¡ã¯ETX */
 					RcvSts = STS_WAIT_ETX;
-				} else {								/* ŽóMƒf[ƒ^•Û‘¶ */
+				} else {								/* å—ä¿¡ãƒ‡ãƒ¼ã‚¿ä¿å­˜ */
 					stmp[rcv_n] = ch;
 					ucBCC ^= ch;						/* BCC */
 					rcv_n++;
 				}
 				break;
 			case STS_WAIT_ETX:
-				if (ch == CHR_DLE) {					/* DLE‚È‚ç‚Îƒf[ƒ^‚Å‚ ‚é */
+				if (ch == CHR_DLE) {					/* DLEãªã‚‰ã°ãƒ‡ãƒ¼ã‚¿ã§ã‚ã‚‹ */
 					stmp[rcv_n] = ch;
 					ucBCC ^= ch;						/* BCC */
 					rcv_n++;
 					RcvSts = STS_DATA;
-				} else if (ch == CHR_ETX) {				/* ETX‚È‚çŽŸ‚ÍBCC */
+				} else if (ch == CHR_ETX) {				/* ETXãªã‚‰æ¬¡ã¯BCC */
 					RcvSts = STS_WAIT_BCC;
 					ucBCC ^= ch;						/* BCC */
-				} else if (ch == CHR_STX) {			/* STX‚È‚çƒŠƒZƒbƒg */
+				} else if (ch == CHR_STX) {			/* STXãªã‚‰ãƒªã‚»ãƒƒãƒˆ */
 					ucBCC = 0;							/* BCC */
 					rcv_n = 0;
 					RcvSts = STS_DATA;
@@ -208,13 +208,13 @@ void Comm_Rcv(void)
 				}
 				break;
 			case STS_WAIT_BCC:
-				if (ucBCC == ch) {						/* BCCˆê’v */
-					//ì¬‚³‚ê‚½•¶Žš—ñ‚ðƒŠƒ“ƒOƒoƒbƒtƒ@‚ÖƒRƒs[
+				if (ucBCC == ch) {						/* BCCä¸€è‡´ */
+					//ä½œæˆã•ã‚ŒãŸæ–‡å­—åˆ—ã‚’ãƒªãƒ³ã‚°ãƒãƒƒãƒ•ã‚¡ã¸ã‚³ãƒ”ãƒ¼
 					memcpy(rcv_buff[p_wr], stmp, rcv_n);
 					p_wr++;
 					if ( p_wr >= MAX_BUFF ) p_wr=0;
 				}
-				/* ŽŸ‚Ìƒf[ƒ^ŽóM‚É”õ‚¦‚é */
+				/* æ¬¡ã®ãƒ‡ãƒ¼ã‚¿å—ä¿¡ã«å‚™ãˆã‚‹ */
 				ucBCC = 0;					/* BCC */
 				rcv_n = 0;
 				RcvSts = STS_IDLE;
@@ -233,7 +233,7 @@ void Comm_Rcv(void)
 			break;
 		}
 		
-		//ŽóMŠ®—¹ƒtƒ‰ƒO
+		//å—ä¿¡å®Œäº†ãƒ•ãƒ©ã‚°
 		if (p_rd != p_wr) {
 			Comm_RcvF=1;
 		} else {
@@ -244,29 +244,29 @@ void Comm_Rcv(void)
 
 
 // ----------------------------------------------------------------------------------
-//	ƒfƒoƒCƒXƒI[ƒvƒ“
+//	ãƒ‡ãƒã‚¤ã‚¹ã‚ªãƒ¼ãƒ—ãƒ³
 // ----------------------------------------------------------------------------------
-//	ˆø”	: dev .. ƒVƒŠƒAƒ‹ƒ|[ƒg
-//	–ß‚è’l	: ³íŽž:0   ƒGƒ‰[Žž:-1
+//	å¼•æ•°	: dev .. ã‚·ãƒªã‚¢ãƒ«ãƒãƒ¼ãƒˆ
+//	æˆ»ã‚Šå€¤	: æ­£å¸¸æ™‚:0   ã‚¨ãƒ©ãƒ¼æ™‚:-1
 // ----------------------------------------------------------------------------------
 int Comm_Open(char *dev)
 {
-	//Šù‚ÉƒI[ƒvƒ“‚µ‚Ä‚¢‚é‚Æ‚«‚Íˆê“x•Â‚¶‚é
+	//æ—¢ã«ã‚ªãƒ¼ãƒ—ãƒ³ã—ã¦ã„ã‚‹ã¨ãã¯ä¸€åº¦é–‰ã˜ã‚‹
 	if (fd != 0) Comm_Close();
-	//ƒ|[ƒgƒI[ƒvƒ“
+	//ãƒãƒ¼ãƒˆã‚ªãƒ¼ãƒ—ãƒ³
 	fd = open(dev, O_RDWR | O_NDELAY | O_NOCTTY);
 	if (fd < 0) return NG;
-	//ƒfƒŠƒ~ƒ^
+	//ãƒ‡ãƒªãƒŸã‚¿
 	delim=0;
 		
 	return OK;
 }
 
 // ----------------------------------------------------------------------------------
-//	ƒfƒoƒCƒXƒNƒ[ƒY
+//	ãƒ‡ãƒã‚¤ã‚¹ã‚¯ãƒ­ãƒ¼ã‚º
 // ----------------------------------------------------------------------------------
-//	ˆø”	: non
-//	–ß‚è’l	: non
+//	å¼•æ•°	: non
+//	æˆ»ã‚Šå€¤	: non
 // ----------------------------------------------------------------------------------
 void Comm_Close()
 {
@@ -279,14 +279,14 @@ void Comm_Close()
 }
 
 // ----------------------------------------------------------------------------------
-//	ƒ|[ƒgÝ’è
+//	ãƒãƒ¼ãƒˆè¨­å®š
 // ----------------------------------------------------------------------------------
-//	ˆø”	: boud   .. ƒ{[ƒŒ[ƒg 9600 19200 ....
-//			: parity .. ƒpƒŠƒeƒB[ 
-//			: bitlen .. ƒrƒbƒg’·
-//			: rts    .. RTS§Œä
-//			: dtr    .. DTR§Œä
-//	–ß‚è’l	: non
+//	å¼•æ•°	: boud   .. ãƒœãƒ¼ãƒ¬ãƒ¼ãƒˆ 9600 19200 ....
+//			: parity .. ãƒ‘ãƒªãƒ†ã‚£ãƒ¼ 
+//			: bitlen .. ãƒ“ãƒƒãƒˆé•·
+//			: rts    .. RTSåˆ¶å¾¡
+//			: dtr    .. DTRåˆ¶å¾¡
+//	æˆ»ã‚Šå€¤	: non
 // ----------------------------------------------------------------------------------
 void Comm_Setup(long baud ,int parity ,int bitlen ,int rts ,int dtr ,char code)
 {
@@ -305,13 +305,13 @@ void Comm_Setup(long baud ,int parity ,int bitlen ,int rts ,int dtr ,char code)
 	case 460800:brate=B460800;break;
 	default    :brate=B9600;  break;
 	}
-	//ƒpƒŠƒeƒB
+	//ãƒ‘ãƒªãƒ†ã‚£
 	switch (parity) {
 	case PAR_NON:cflg=0;					 break;
 	case PAR_ODD:cflg=PARENB | PARODD;break;
 	default     :cflg=PARENB;			 break;
 	}
-	//ƒf[ƒ^’·
+	//ãƒ‡ãƒ¼ã‚¿é•·
 	switch (bitlen) {
 	case 7 :cflg |= CS7;break;
 	default:cflg |= CS8;break;
@@ -327,7 +327,7 @@ void Comm_Setup(long baud ,int parity ,int bitlen ,int rts ,int dtr ,char code)
 	default:cflg |= CRTSCTS; break;
 	}
 	
-	//ƒ|[ƒgÝ’èƒtƒ‰ƒO
+	//ãƒãƒ¼ãƒˆè¨­å®šãƒ•ãƒ©ã‚°
 	tio.c_cflag = cflg | CREAD;
 	tio.c_lflag = 0;
 	tio.c_iflag = 0;
@@ -336,19 +336,19 @@ void Comm_Setup(long baud ,int parity ,int bitlen ,int rts ,int dtr ,char code)
 	tio.c_cc[VMIN]  = 0;
 	
 	cfsetspeed(&tio, brate);	
-	tcflush( fd, TCIFLUSH);				//ƒoƒbƒtƒ@‚ÌÁ‹Ž
-	tcsetattr( fd, TCSANOW , &tio);		//‘®«‚ÌÝ’è
+	tcflush( fd, TCIFLUSH);				//ãƒãƒƒãƒ•ã‚¡ã®æ¶ˆåŽ»
+	tcsetattr( fd, TCSANOW , &tio);		//å±žæ€§ã®è¨­å®š
 	
-	delim=code;								//ƒfƒŠƒ~ƒ^ƒR[ƒh
+	delim=code;								//ãƒ‡ãƒªãƒŸã‚¿ã‚³ãƒ¼ãƒ‰
 	return;
 }
 
 // ----------------------------------------------------------------------------------
-//	•¶Žš—ñ‘—M
+//	æ–‡å­—åˆ—é€ä¿¡
 // ----------------------------------------------------------------------------------
-//	ˆø”	: buff .. •¶Žš—ñƒoƒbƒtƒ@
-//			: l    .. ‘—M•¶Žš”
-//	–ß‚è’l	: 1:OK -1:NG
+//	å¼•æ•°	: buff .. æ–‡å­—åˆ—ãƒãƒƒãƒ•ã‚¡
+//			: l    .. é€ä¿¡æ–‡å­—æ•°
+//	æˆ»ã‚Šå€¤	: 1:OK -1:NG
 // ----------------------------------------------------------------------------------
 int Comm_SendData( UCHAR *buff, int l)
 {
@@ -360,10 +360,10 @@ int Comm_SendData( UCHAR *buff, int l)
 }
 
 // ----------------------------------------------------------------------------------
-//	ŽóMƒf[ƒ^Žæ“¾
+//	å—ä¿¡ãƒ‡ãƒ¼ã‚¿å–å¾—
 // ----------------------------------------------------------------------------------
-//	ˆø”	: buff .. •¶Žš—ñƒoƒbƒtƒ@
-//	–ß‚è’l	: ŽóM•¶Žš”
+//	å¼•æ•°	: buff .. æ–‡å­—åˆ—ãƒãƒƒãƒ•ã‚¡
+//	æˆ»ã‚Šå€¤	: å—ä¿¡æ–‡å­—æ•°
 // ----------------------------------------------------------------------------------
 int Comm_GetRcvData(UCHAR *buff)
 {
@@ -385,10 +385,10 @@ int Comm_GetRcvData(UCHAR *buff)
 }
 
 // ----------------------------------------------------------------------------------
-//	ŽóM—L–³Šm”F
+//	å—ä¿¡æœ‰ç„¡ç¢ºèª
 // ----------------------------------------------------------------------------------
-//	ˆø”	: non 
-//	–ß‚è’l	: 0:‚È‚µ 0ˆÈŠOF‚ ‚è
+//	å¼•æ•°	: non 
+//	æˆ»ã‚Šå€¤	: 0:ãªã— 0ä»¥å¤–ï¼šã‚ã‚Š
 // ----------------------------------------------------------------------------------
 int Comm_CheckRcv()
 {
@@ -396,16 +396,16 @@ int Comm_CheckRcv()
 }
 
 // ----------------------------------------------------------------------------------
-//	ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‰Šú‰»
+//	ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³åˆæœŸåŒ–
 // ----------------------------------------------------------------------------------
-//	ˆø”	: non
-//	–ß‚è’l	: non
+//	å¼•æ•°	: non
+//	æˆ»ã‚Šå€¤	: non
 // ----------------------------------------------------------------------------------
 void App_Init(void)
 {
 	int rt;
 	
-	//Commƒ|[ƒg‰Šú‰»
+	//Commãƒãƒ¼ãƒˆåˆæœŸåŒ–
 	gSys.com_ok = NG;
 
 	rt = Comm_Open("/dev/ttyACM0");
@@ -417,10 +417,10 @@ void App_Init(void)
 }
 
 // ----------------------------------------------------------------------------------
-//	ƒAƒvƒŠƒP[ƒVƒ‡ƒ“I—¹ˆ—
+//	ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³çµ‚äº†å‡¦ç†
 // ----------------------------------------------------------------------------------
-//	ˆø”	: non
-//	–ß‚è’l	: non
+//	å¼•æ•°	: non
+//	æˆ»ã‚Šå€¤	: non
 // ----------------------------------------------------------------------------------
 void App_Close(void)
 {
@@ -433,9 +433,9 @@ void App_Close(void)
 
 /*********************************************************************************
 * Function Name  : HST_SendResp
-* Description    : ƒf[ƒ^‚ð®Œ`‚µ‚Ä‘—M‚·‚é
-* Input          : pucInput ‘—Mƒf[ƒ^
-*                : ‘—Mƒf[ƒ^ƒTƒCƒY
+* Description    : ãƒ‡ãƒ¼ã‚¿ã‚’æ•´å½¢ã—ã¦é€ä¿¡ã™ã‚‹
+* Input          : pucInput é€ä¿¡ãƒ‡ãƒ¼ã‚¿
+*                : é€ä¿¡ãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚º
 * Output         : 
 * Return         : 
 *********************************************************************************/
@@ -447,7 +447,7 @@ ULONG SendData(UCHAR *pucInput, USHORT usSize)
 	UCHAR *pucWrite = &CommSendBuff[0];
 	USHORT usRealSize;
 	
-	// ƒf[ƒ^®Œ` 
+	// ãƒ‡ãƒ¼ã‚¿æ•´å½¢ 
 	*pucWrite = CHR_DLE;					// DLE 
 	pucWrite++;
 	*pucWrite = CHR_STX;					// STX 
@@ -456,24 +456,24 @@ ULONG SendData(UCHAR *pucInput, USHORT usSize)
 	
 	for (usCnt = 0; usCnt < usSize; usCnt++) {
 		ucWork = pucInput[usCnt];
-		if (ucWork == CHR_DLE) {			// ƒf[ƒ^‚ª0x10‚È‚ç‚Î0x10‚ð•t‰Á 
-			*pucWrite = CHR_DLE;			// DLE•t‰Á 
-			pucWrite++;						// ‘‚«ž‚Ýæ 
-			usRealSize++;					// ŽÀƒTƒCƒY
-			// BCC‚ÍŒvŽZ‚µ‚È‚¢!
+		if (ucWork == CHR_DLE) {			// ãƒ‡ãƒ¼ã‚¿ãŒ0x10ãªã‚‰ã°0x10ã‚’ä»˜åŠ  
+			*pucWrite = CHR_DLE;			// DLEä»˜åŠ  
+			pucWrite++;						// æ›¸ãè¾¼ã¿å…ˆ 
+			usRealSize++;					// å®Ÿã‚µã‚¤ã‚º
+			// BCCã¯è¨ˆç®—ã—ãªã„!
 		}
-		*pucWrite = ucWork;					// ƒf[ƒ^ 
+		*pucWrite = ucWork;					// ãƒ‡ãƒ¼ã‚¿ 
 		ucBCC ^= ucWork;					// BCC 
-		pucWrite++;							// ‘‚«ž‚Ýæ 
-		usRealSize++;						// ŽÀƒTƒCƒY 
+		pucWrite++;							// æ›¸ãè¾¼ã¿å…ˆ 
+		usRealSize++;						// å®Ÿã‚µã‚¤ã‚º 
 	}
 	
 	*pucWrite = CHR_DLE;					// DLE 
 	pucWrite++;
 	*pucWrite = CHR_ETX;					// ETX 
-	ucBCC ^= CHR_ETX;						// BCCŒvŽZ 
+	ucBCC ^= CHR_ETX;						// BCCè¨ˆç®— 
 	pucWrite++;
-	*pucWrite = ucBCC;						// BCC•t‰Á 
+	*pucWrite = ucBCC;						// BCCä»˜åŠ  
 	usRealSize += 3;
 	
 	Comm_SendData(&CommSendBuff[0], usRealSize);
@@ -486,11 +486,11 @@ void SerialStart(void)
 	USHORT len;
 	
 	printf("Start\n");
-	len = 0x04;								// ƒf[ƒ^’·
-	SendBuff[0] = len;						// ƒŒƒ“ƒOƒX
-	SendBuff[1] = 0xFF;						// ƒZƒ“ƒTNo.
-	SendBuff[2] = CMD_DATA_START;			// ƒRƒ}ƒ“ƒhŽí•Ê
-	SendBuff[3] = 0;						// —\”õ
+	len = 0x04;								// ãƒ‡ãƒ¼ã‚¿é•·
+	SendBuff[0] = len;						// ãƒ¬ãƒ³ã‚°ã‚¹
+	SendBuff[1] = 0xFF;						// ã‚»ãƒ³ã‚µNo.
+	SendBuff[2] = CMD_DATA_START;			// ã‚³ãƒžãƒ³ãƒ‰ç¨®åˆ¥
+	SendBuff[3] = 0;						// äºˆå‚™
 	
 	SendData(SendBuff, len);
 }
@@ -500,11 +500,11 @@ void SerialStop(void)
 	USHORT len;
 	
 	printf("Stop\n");
-	len = 0x04;								// ƒf[ƒ^’·
-	SendBuff[0] = len;						// ƒŒƒ“ƒOƒX
-	SendBuff[1] = 0xFF;						// ƒZƒ“ƒTNo.
-	SendBuff[2] = CMD_DATA_STOP;			// ƒRƒ}ƒ“ƒhŽí•Ê
-	SendBuff[3] = 0;						// —\”õ
+	len = 0x04;								// ãƒ‡ãƒ¼ã‚¿é•·
+	SendBuff[0] = len;						// ãƒ¬ãƒ³ã‚°ã‚¹
+	SendBuff[1] = 0xFF;						// ã‚»ãƒ³ã‚µNo.
+	SendBuff[2] = CMD_DATA_STOP;			// ã‚³ãƒžãƒ³ãƒ‰ç¨®åˆ¥
+	SendBuff[3] = 0;						// äºˆå‚™
 	
 	SendData(SendBuff, len);
 }
